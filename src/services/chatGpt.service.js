@@ -12,7 +12,7 @@ async function main(text) {
 
   console.log('chatCompletion', chatCompletion)
 
-  const message = chatCompletion[0].message.content
+  const message = chatCompletion.choices[0].message.content
   return message
 }
 
