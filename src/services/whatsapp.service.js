@@ -1,4 +1,5 @@
 const whatsappModels = require('../models/whatsapp')
+const chatGptService = require('./chatGpt.service')
 
 const https = require('https')
 const dotenv = require('dotenv')
@@ -30,7 +31,7 @@ function sendMessage(messageObject) {
   req.end()
 }
 
-function processMessage(message, number) {
+async function processMessage(message, number) {
   const normalizeMessage = message.toLowerCase()
   let models = []
 
@@ -48,8 +49,10 @@ function processMessage(message, number) {
     )
     models.push(model)
   } else {
+    const responseMessage = await chatGptService.main(normalizeMessage)
+
     let model = whatsappModels.message(
-      'Lo siento, No comprendí tu respuesta',
+      `Response ${responseMessage || 'Nothing'}`,
       number
     )
     models.push(model)

@@ -46,7 +46,7 @@ function getTextUser(messages) {
   return text
 }
 
-const receiveMessage = (req, res) => {
+const receiveMessage = async (req, res) => {
   try {
     const entry = req.body['entry'][0]
     const changes = entry['changes'][0]
@@ -61,7 +61,7 @@ const receiveMessage = (req, res) => {
       const number = messages['from']
 
       if (text !== '') {
-        whatsappService.processMessage(text, number)
+        await whatsappService.processMessage(text, number)
       }
     }
 
