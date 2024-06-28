@@ -1,4 +1,5 @@
 const OpenAI = require('openai')
+const { prompts } = require('../data/prompt')
 
 const openai = new OpenAI({
   apiKey: process.env['OPENAI_API_KEY'],
@@ -6,8 +7,11 @@ const openai = new OpenAI({
 
 async function main(text) {
   const chatCompletion = await openai.chat.completions.create({
-    messages: [{ role: 'user', content: text }],
+    messages: [...prompts, { role: 'user', content: text }],
     model: 'gpt-3.5-turbo',
+    max_tokens: 90,
+    temperature: 0,
+    stop: 'END',
   })
 
   console.log('chatCompletion', chatCompletion)
